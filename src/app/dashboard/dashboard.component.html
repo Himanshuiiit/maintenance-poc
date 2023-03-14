@@ -1,0 +1,7 @@
+<div *ngIf="!underMaintenance">
+    <div>{{posts | json}}</div>
+    <div>{{profile | json}}</div>
+    <div>{{comments | json}}</div>
+</div>
+
+<app-maintenance *ngIf="underMaintenance"></app-maintenance>
