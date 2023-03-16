@@ -7,11 +7,21 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { MaintenanceComponent } from './maintenance/maintenance.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
+import { AngularFireModule } from '@angular/fire/compat';
+import { AngularFireDatabaseModule } from '@angular/fire/compat/database';
+import { firebaseConfig } from 'src/environments/environment';
 
 
 @NgModule({
   declarations: [AppComponent, MaintenanceComponent, DashboardComponent],
-  imports: [BrowserModule, AppRoutingModule, FormsModule, HttpClientModule],
+  imports: [
+    BrowserModule,
+    AppRoutingModule,
+    FormsModule,
+    HttpClientModule,
+    AngularFireDatabaseModule,
+    AngularFireModule.initializeApp(firebaseConfig),
+  ],
   providers: [],
   bootstrap: [AppComponent],
 })

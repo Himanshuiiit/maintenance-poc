@@ -1,7 +1,8 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component } from '@angular/core';
-import { Router } from '@angular/router';
+import { AngularFireList } from '@angular/fire/compat/database';
 import { DataService } from '../services/data.service';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-dashboard',
@@ -9,17 +10,17 @@ import { DataService } from '../services/data.service';
   styleUrls: ['./dashboard.component.css'],
 })
 export class DashboardComponent {
-  posts: any;
-  comments: any;
-  profile: any;
+  data: Observable<any>[] = [];
   underMaintenance = false;
-  constructor(private dataService: DataService, private router: Router) {}
+  constructor(private dataService: DataService) {}
 
   ngOnInit(): void {
-    this.dataService.getPosts().subscribe({
-      next: (data: any) => {
-        this.posts = data;
-      },
+    const dataRef: AngularFireList<any> = this.dataService.getData();
+    dataRef.valueChanges().subscribe((data) => {
+      next: this.data = data;
+      if (this.data.length === 0) {
+        this.underMaintenance = true;
+      }
       error: (error: HttpErrorResponse) => {
         if (
           error.status.toString().charAt(0) === '4' ||
@@ -27,33 +28,7 @@ export class DashboardComponent {
         ) {
           this.underMaintenance = true;
         }
-      },
-    });
-    this.dataService.getComments().subscribe({
-      next: (data: any) => {
-        this.comments = data;
-      },
-      error: (error: HttpErrorResponse) => {
-        if (
-          error.status.toString().charAt(0) === '4' ||
-          error.status.toString().charAt(0) === '5'
-        ) {
-          this.underMaintenance = true;
-        }
-      },
-    });
-    this.dataService.getProfiles().subscribe({
-      next: (data: any) => {
-        this.profile = data;
-      },
-      error: (error: HttpErrorResponse) => {
-        if (
-          error.status.toString().charAt(0) === '4' ||
-          error.status.toString().charAt(0) === '5'
-        ) {
-          this.underMaintenance = true;
-        }
-      },
+      };
     });
   }
 }

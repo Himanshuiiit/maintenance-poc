@@ -1,7 +1,6 @@
 <div *ngIf="!underMaintenance">
-    <div>{{posts | json}}</div>
-    <div>{{profile | json}}</div>
-    <div>{{comments | json}}</div>
+    <div *ngFor="let item of data">
+        {{item | json}}
+    </div>
 </div>
-
 <app-maintenance *ngIf="underMaintenance"></app-maintenance>
