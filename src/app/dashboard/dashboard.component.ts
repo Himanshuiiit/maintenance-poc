@@ -16,6 +16,10 @@ export class DashboardComponent {
 
   ngOnInit(): void {
     const dataRef: AngularFireList<any> = this.dataService.getData();
+    this.dataService.getValueByKey('maintenance_mode').then((value) => {
+        this.underMaintenance = value;
+    });
+
     dataRef.valueChanges().subscribe((data) => {
       next: this.data = data;
       if (this.data.length === 0) {
