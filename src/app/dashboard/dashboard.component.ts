@@ -11,13 +11,14 @@ import { Observable } from 'rxjs';
 })
 export class DashboardComponent {
   data: Observable<any>[] = [];
-  underMaintenance = false;
+  underMaintenance = true;
   constructor(private dataService: DataService) {}
 
   ngOnInit(): void {
     const dataRef: AngularFireList<any> = this.dataService.getData();
-    this.dataService.getValueByKey('maintenance_mode').then((value) => {
-        this.underMaintenance = value;
+    this.dataService.isMaintenanceMode().subscribe((value) => {
+      console.log(value);
+      this.underMaintenance = value===12? true : false;
     });
 
     dataRef.valueChanges().subscribe((data) => {

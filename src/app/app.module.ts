@@ -41,7 +41,7 @@ import {
     {
       provide: SETTINGS,
       useFactory: () =>
-        isDevMode() ? { minimumFetchIntervalMillis: 10_000 } : {},
+        isDevMode() ? { minimumFetchIntervalMillis: 0 } : {},
     },
   ],
   bootstrap: [AppComponent],
